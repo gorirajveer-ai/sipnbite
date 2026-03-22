@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>Feedback Page - Your Website</title>
+    <style>
+        /* Existing Styles preserved and optimized */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #333; background: #f0f2f5; min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: rgba(255, 255, 255, 0.95); border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 600; }
+        .main-content { display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
+        .feedback-form { padding: 50px; background: #f8f9ff; }
+        .feedback-list { padding: 50px; background: white; overflow-y: auto; max-height: 800px; }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        input, textarea { width: 100%; padding: 15px; border: 2px solid #e1e5e9; border-radius: 12px; font-size: 16px; font-family: inherit; }
+        .rating-group { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .rating-item { flex: 1; min-width: 60px; text-align: center; }
+        .rating-item input { display: none; }
+        .rating-item label { display: block; padding: 15px 5px; background: #fff; border: 2px solid #e1e5e9; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        .rating-item input:checked + label { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #4facfe; transform: translateY(-2px); }
+        .btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4); }
+        .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .feedback-item { background: #f8f9ff; padding: 25px; margin-bottom: 20px; border-radius: 15px; border-left: 5px solid #4facfe; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        .feedback-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .feedback-name { font-weight: 700; color: #4facfe; }
+        .feedback-rating { background: #4facfe; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; }
+        .stats { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; text-align: center; margin-bottom: 30px; border-radius: 15px; }
+        .total-count { font-size: 2.5em; font-weight: 700; }
+        .footer { background: #333; color: white; text-align: center; padding: 3rem 2rem; margin-top: 40px; }
+        @media (max-width: 768px) { .main-content { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Customer Feedback</h1>
+            <p>We value your opinion! Share your experience with us.</p>
+        </div>
+
+        <div class="main-content">
+            <div class="feedback-form">
+                <div class="stats">
+                    <h3>Total Feedbacks</h3>
+                    <div class="total-count" id="totalFeedbacks">0</div>
+                </div>
+
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Rating *</label>
+                        <div class="rating-group">
+                            <div class="rating-item"><input type="radio" id="rating1" name="rating" value="1" required><label for="rating1">😞 1</label></div>
+                            <div class="rating-item"><input type="radio" id="rating2" name="rating" value="2"><label for="rating2">🙁 2</label></div>
+                            <div class="rating-item"><input type="radio" id="rating3" name="rating" value="3"><label for="rating3">😐 3</label></div>
+                            <div class="rating-item"><input type="radio" id="rating4" name="rating" value="4"><label for="rating4">🙂 4</label></div>
+                            <div class="rating-item"><input type="radio" id="rating5" name="rating" value="5"><label for="rating5">😊 5</label></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email(optional)</label>
+                        <input type="email" id="email" name="email" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Feedback *</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your experience..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" id="submitBtn">Submit Feedback</button>
+                </form>
+            </div>
+
+            <div class="feedback-list">
+                <h2 style="margin-bottom: 30px; color: #333; font-size: 1.8em;">Recent Feedbacks</h2>
+                <div id="feedbackList">
+                    <div class="empty-state">Loading feedbacks...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  // Your Specific Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBRM5WfWQg1RFZEtSqDayj6dBlLxUDcJ-w",
+    authDomain: "sipnbites-feedback.firebaseapp.com",
+    databaseURL: "https://sipnbites-feedback-default-rtdb.firebaseio.com",
+    projectId: "sipnbites-feedback",
+    storageBucket: "sipnbites-feedback.firebasestorage.app",
+    messagingSenderId: "829166652773",
+    appId: "1:829166652773:web:cb775dadfa87d075a2a58c",
+    measurementId: "G-Z1W4EXBCVQ"
+  };
+
+  // Initialize
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const feedbackRef = ref(db, 'feedbacks');
+
+  class FirebaseFeedbackManager {
+    constructor() {
+        this.form = document.getElementById('feedbackForm');
+        this.submitBtn = document.getElementById('submitBtn');
+        this.init();
+    }
+
+    init() {
+        // Listen for new submissions
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        // Sync display across all devices
+        this.renderFeedbacks();
+    }
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this.form);
+        const feedback = {
+            name: formData.get('name'),
+            rating: formData.get('rating'),
+            email: formData.get('email') || 'Not provided',
+            message: formData.get('message'),
+            timestamp: serverTimestamp(), // Syncs time based on server, not device
+            displayDate: new Date().toLocaleString()
+        };
+
+        this.submitBtn.disabled = true;
+        this.submitBtn.innerText = "Posting...";
+
+        try {
+            await push(feedbackRef, feedback);
+            this.form.reset();
+            alert("Feedback sent successfully!");
+        } catch (error) {
+            console.error(error);
+            alert("Error saving feedback. Check your Firebase Rules.");
+        } finally {
+            this.submitBtn.disabled = false;
+            this.submitBtn.innerText = "Submit Feedback";
+        }
+    }
+
+    renderFeedbacks() {
+        const container = document.getElementById('feedbackList');
+        const countDisplay = document.getElementById('totalFeedbacks');
+
+        onValue(feedbackRef, (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                container.innerHTML = '<div class="empty-state" style="text-align:center; padding:50px; color:#888;">No feedbacks yet. Be the first!</div>';
+                countDisplay.textContent = '0';
+                return;
+            }
+
+            const feedbackArray = Object.values(data).reverse(); // Newest first
+            countDisplay.textContent = feedbackArray.length;
+
+            container.innerHTML = feedbackArray.map(fb => `
+                <div class="feedback-item">
+                    <div class="feedback-header">
+                        <div>
+                            <div class="feedback-name">${this.escape(fb.name)}</div>
+                            <div style="font-size:0.8em; color:#888;">${fb.displayDate}</div>
+                        </div>
+                        <div class="feedback-rating">⭐ ${fb.rating}/5</div>
+                    </div>
+                    <div style="font-size:0.9em; color:#666; margin-bottom:10px;">${this.escape(fb.email)}</div>
+                    <div class="feedback-message">${this.escape(fb.message)}</div>
+                </div>
+            `).join('');
+        });
+    }
+
+    // Basic security to prevent script injection
+    escape(html) {
+        const text = document.createTextNode(html);
+        const p = document.createElement('p');
+        p.appendChild(text);
+        return p.innerHTML;
+    }
+  }
+
+  new FirebaseFeedbackManager();
+</script>
+
+<footer class="footer">
+    <p>&copy; Built and designed by RAJVEER BHANUSHALI <br> 
+    VISIT <a href="https://www.instagram.com/rj_bhanushali_1019/?hl=en" style="color:white; text-decoration:none;"><i class="fab fa-instagram"></i> - @rj_bhanushali_1019</a></p>
+</footer>
+</body>
+</html>
